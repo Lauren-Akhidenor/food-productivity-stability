@@ -330,18 +330,24 @@ Leaders | Metric | Leader | Value |
 
 ---
 
-**Reproducibility & repo layout**
-- /data/raw/ — immutable FAO exports  
-- /data/clean/ — canonical CSVs + manifest  
-- /sql/ — T‑SQL pipelines, views, QA scripts (`Full Production FAO.sql`)  
-- /notebooks/ — Colab Python notebooks (forecasting, scenario analysis)  
-- /spss/ — SPSS workbooks & outputs  
-- /reports/ — Power BI .pbix and policy briefs  
-- /analysis/ — ANALYSIS.md, FORECASTS.md, AI_ASSIST.md  
-- /LICENSE — data/license attribution
+**Project layout**
+
+All project files for the **Global Agricultural Food Systems Analysis** are available below. Click the file names to access them directly on GitHub.
+
+| File | Description |
+|---|---|
+| [Full production data.xlsx](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20production%20data.xlsx) | Raw FAO data extracted for analysis |
+| [Full Production FAO.sql](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.sql) | SQL script to build and populate FAO analytical warehouse |
+| [Production FAO script.sql](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Production%20FAO%20script.sql) | Additional SQL transformations and ETL scripts |
+| [Full production data.spv](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20production%20data.spv) | SPSS output file with diagnostic and regression analysis |
+| [Global_Agricultural_Food_Systems_Analysis_Production,_Security_&_Strategic_Outlook_(2015_2029).ipynb](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Global_Agricultural_Food_Systems_Analysis_Production,_Security_&_Strategic_Outlook_(2015_2029).ipynb) | Jupyter Notebook with full Python analysis, modeling, and visualizations |
+| [Full Production FAO.pbix](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.pbix) | Power BI dashboard for agricultural production and food security |
+| [Quadratic Production Analysis.xlsx](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Quadratic%20Production%20Analysis.xlsx) | Quadratic AI-assisted analytics workbook with scenario and prescriptive analysis |
 
 
 ---
+
+
 
 **The global food system in this sample is land‑driven, loss‑heavy and geographically concentrated. Reducing post‑harvest losses and closing yield gaps offer the fastest, highest‑return routes to improved food security. This project provides a data‑engineered, statistically validated, AI‑ready framework to test these policy levers and produce policy‑grade evidence.**
 
