@@ -1,4 +1,4 @@
-# Global Agricultural Food Systems Analysis  
+# Global Agricultural Food Systems Analysis (2015-2029)
 Production, Food Security & Strategic Outlook (2015–2029)  
 
 A reproducible agricultural intelligence warehouse and policy‑grade analytics pipeline built from FAO (FAOSTAT) data. The objective is to transform raw FAO exports into economic, food‑security, and strategic insights using a full data‑engineering and econometric workflow. The output is a single AI‑ready analytical model supporting monitoring, diagnostics, forecasting and prescriptive policy analysis.
