@@ -16,19 +16,19 @@ This project converts FAO long‑format tables into canonical fact tables and a 
 - loss & waste diagnostics,
 - policy and investment planning.
 
-Analytical truth is governed in SQL Server; SPSS, Python and Power BI consume SQL outputs for diagnostics, forecasting and visualization. Quadratic AI is used for exploratory AI‑assisted analytics and scenario experiments — always validated against SQL outputs.
+Analytical truth is governed in SQL Server; SPSS, Python and Power BI consume SQL outputs for diagnostics, forecasting and visualization. Quadratic AI is used for exploratory AI‑assisted analytics and scenario experiments, always validated against SQL outputs.
 
 ---
 
 ## Data pipeline (high level)
 FAO Database  
-↓ Excel (initial extraction, reconciliation, cleaning)  
+↓ Excel: initial extraction, reconciliation, cleaning (Staging) 
 ↓ CSV export  
-↓ SQL Server (SSMS) — warehouse construction & QA  
-↓ SPSS — statistical diagnostics  
-↓ Python (Google Colab) — predictive & prescriptive modeling  
-↓ Power BI — visualization & dashboards  
-↓ Quadratic AI — exploratory AI‑assisted analytics
+↓ SQL Server (SSMS): warehouse construction & QA  
+↓ SPSS: statistical diagnostics
+↓ Python (Google Colab): predictive & prescriptive modeling  
+↓ Power BI: visualization & dashboards  
+↓ Quadratic AI: exploratory AI‑assisted analytics
 
 Notes
 - Excel is for early inspection and small, documented fixes only. SQL Server stores canonical datasets and enforces reproducible transforms.
@@ -48,8 +48,22 @@ These cover production, economics, nutrition and trade and are merged into the m
 
 ---
 
+## Data Staging (Excel)
+
+Excel was used as the initial **staging layer** for FAO data ingestion. Raw FAO extracts were standardized, validated, and structured into tabular form before being exported as CSV files and loaded into SQL Server for transformation into analytical fact tables.
+
+
+🔗 **[Production spreadsheet](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20production%20data.xlsx)**
+
+---
+
 ## Warehouse architecture (SQL Server)
+
 Raw FAO tables (long format) → summary fact tables → `Full_dataset` master view.
+
+🔗 **[Fact SQL](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Production%20FAO%20script.sql)**
+
+🔗 **[Master SQL](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.sql)**
 
 Raw tables:
 - production, production_indices, value_agriculture, food_balance, SUA
@@ -62,7 +76,7 @@ Fact tables (T‑SQL):
 - supply_utilization_summary
 
 Master view:
-- `Full_dataset` — harmonized country × commodity × year rows with numeric analytical fields (production, yields, indices, value, nutrition, trade, losses, stocks, population).
+- `Full_dataset`: harmonized country × commodity × year rows with numeric analytical fields (production, yields, indices, value, nutrition, trade, losses, stocks, population).
 
 ---
 
@@ -148,6 +162,8 @@ Use this to prioritize storage/cold‑chain investments where loss rates are hig
 ## SPSS diagnostics 
 Dataset: `Full production data.sav` (240 rows)
 
+🔗 **[Full production data.spv](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20production%20data.spv)** 
+
 Key observations:
 - Production and Losses: strongly right‑skewed.  
 - Area_Harvested: bimodal (smallholder vs commercial).  
@@ -166,6 +182,8 @@ Regression highlights:
 
 ## Python (Colab) panel modeling & ML
 Panel: countries = USA, Brazil, France, India, Nigeria, Australia; commodities = Rice, Maize, Wheat, Milk; years = 2015–2024; balanced panel ≈ 200 obs.
+
+🔗 **[Python Script and Output](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Global_Agricultural_Food_Systems_Analysis_Production,_Security_&_Strategic_Outlook_(2015_2029).ipynb)**
 
 Diagnostic correlations:
 - Area harvested: 0.84  
@@ -211,7 +229,9 @@ Implication: production is highly predictable from land, value and loss signals 
 
 The dashboard includes several core visualization groups that drive the analytical conclusions and policy recommendations below.
 
-🔗 **[View Dashboard in Power BI](https://app.powerbi.com/groups/470c1a60-a135-4efe-b1aa-de52313d367d/reports/b4ad2fc8-91a7-4299-8aa7-8c8323431f66?ctid=86f8f77a-ed2c-4743-a3cf-3aa43c451ea4&pbi_source=linkShare&bookmarkGuid=bd9dc075-6239-4e6b-b06f-abb2e4d9e21a)**
+🔗 **[Power BI Desktop Report](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.pbix)**
+
+🔗 **[View Report in Power BI Service](https://app.powerbi.com/groups/470c1a60-a135-4efe-b1aa-de52313d367d/reports/b4ad2fc8-91a7-4299-8aa7-8c8323431f66?ctid=86f8f77a-ed2c-4743-a3cf-3aa43c451ea4&pbi_source=linkShare&bookmarkGuid=bd9dc075-6239-4e6b-b06f-abb2e4d9e21a)**
 
 ---
 ## Production Trends — Geographic View
@@ -300,6 +320,8 @@ USA and India are anchors of global food stability.
 
 
 ## Summary of Key Findings From Quadratic AI
+
+🔗 **[Quadratic Production Analysis](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Quadratic%20Production%20Analysis.xlsx)**
  
 Leaders | Metric | Leader | Value |
 |---|---:|---:| 
@@ -331,24 +353,6 @@ Leaders | Metric | Leader | Value |
 4. Trade resilience: diversify exporters, strengthen regional trade and buffer stocks.
 
 ---
-
-**Project layout**
-
-All project files for the **Global Agricultural Food Systems Analysis** are available below. Click the file names to access them directly on GitHub.
-
-| File | Description |
-|---|---|
-| [Full production data.xlsx](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20production%20data.xlsx) | Raw FAO data extracted for analysis |
-| [Full Production FAO.sql](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.sql) | SQL script to build and populate FAO analytical warehouse |
-| [Production FAO script.sql](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Production%20FAO%20script.sql) | Additional SQL transformations and ETL scripts |
-| [Full production data.spv](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20production%20data.spv) | SPSS output file with diagnostic and regression analysis |
-| [Global_Agricultural_Food_Systems_Analysis_Production,_Security_&_Strategic_Outlook_(2015_2029).ipynb](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Global_Agricultural_Food_Systems_Analysis_Production,_Security_&_Strategic_Outlook_(2015_2029).ipynb) | Jupyter Notebook with full Python analysis, modeling, and visualizations |
-| [Full Production FAO.pbix](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.pbix) | Power BI dashboard for agricultural production and food security |
-| [Quadratic Production Analysis.xlsx](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Quadratic%20Production%20Analysis.xlsx) | Quadratic AI-assisted analytics workbook with scenario and prescriptive analysis |
-
-
----
-
 
 
 **The global food system in this sample is land‑driven, loss‑heavy and geographically concentrated. Reducing post‑harvest losses and closing yield gaps offer the fastest, highest‑return routes to improved food security. This project provides a data‑engineered, statistically validated, AI‑ready framework to test these policy levers and produce policy‑grade evidence.**
