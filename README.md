@@ -211,6 +211,8 @@ Implication: production is highly predictable from land, value and loss signals 
 
 The dashboard includes several core visualization groups that drive the analytical conclusions and policy recommendations below.
 
+🔗 **[View Dashboard in Power BI](https://app.powerbi.com/groups/470c1a60-a135-4efe-b1aa-de52313d367d/reports/b4ad2fc8-91a7-4299-8aa7-8c8323431f66?ctid=86f8f77a-ed2c-4743-a3cf-3aa43c451ea4&pbi_source=linkShare&bookmarkGuid=bd9dc075-6239-4e6b-b06f-abb2e4d9e21a)**
+
 ---
 ## Production Trends — Geographic View
 
