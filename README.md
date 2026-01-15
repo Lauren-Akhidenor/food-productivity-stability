@@ -6,6 +6,35 @@ A reproducible agricultural intelligence warehouse and policy‑grade analytics 
 End‑to‑end pipeline
 FAO → Excel → SQL Server → SPSS → Python (Google Colab) → Power BI → Quadratic AI
 
+-----
+
+## 📑 Table of Contents
+
+1. [Executive Summary](#executive-summary)
+2. [Data Pipeline (High Level)](#data-pipeline-high-level)
+3. [Datasets Integrated](#datasets-integrated)
+4. [Data Staging (Excel)](#data-staging-excel)
+5. [Warehouse Architecture (SQL Server)](#warehouse-architecture-sql-server)
+   - [ETL & Validation Workflow](#etl-and-validation-workflow)
+   - [Core SQL Modeling Patterns](#core-sql-modeling-patterns)
+   - [Fact Tables Explained](#fact-tables-explained)
+   - [Example Policy-Grade Indicator](#example-policy-grade-indicator)
+6. [SPSS Diagnostics](#spss-diagnostics)
+7. [Python (Colab) Panel Modeling & ML](#python-colab-panel-modeling-and-ml)
+8. [Key Findings (2015–2024)](#key-findings-2015-2024)
+9. [Forecast Outlook (2025–2029)](#forecast-outlook-2025-2029)
+10. [Power BI Dashboard Insights](#power-bi-dashboard-insights)
+11. [Production Trends — Geographic View](#production-trends-geographic-view)
+12. [Production and Balance Trends](#production-and-balance-trends)
+13. [Production & Balance Forecast (2025–2029)](#production-and-balance-forecast-2025-2029)
+14. [Summary of Key Findings Across Visualizations](#summary-of-key-findings-across-visualizations)
+15. [Critical Concerns](#critical-concerns)
+16. [Summary of Key Findings from Quadratic AI](#summary-of-key-findings-from-quadratic-ai)
+17. [Prioritized Recommendations](#prioritized-recommendations)
+18. [Conclusion](#conclusion)
+
+
+
 ---
 
 ## Executive summary 
@@ -323,7 +352,7 @@ USA and India are anchors of global food stability.
 
 🔗 **[Quadratic Production Analysis](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Quadratic%20Production%20Analysis.xlsx)**
  
-Leaders | Metric | Leader | Value |
+| Metric | Leader | Value |
 |---|---:|---:| 
 | Production | USA | 0.5B+ tonnes | 
 | Area Harvested | India | 100M+ hectares | 
