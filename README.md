@@ -1,133 +1,80 @@
-# Global Agricultural Food Systems Analysis (2015-2029)
-Production, Food Security & Strategic Outlook (2015–2029)  
-
-A reproducible agricultural intelligence warehouse and policy‑grade analytics pipeline built from FAO (FAOSTAT) data. The objective is to transform raw FAO exports into economic, food‑security, and strategic insights using a full data‑engineering and econometric workflow. The output is a single AI‑ready analytical model supporting monitoring, diagnostics, forecasting and prescriptive policy analysis.
-
-End‑to‑end pipeline
-FAO → Excel → SQL Server → SPSS → Python (Google Colab) → Power BI → Quadratic AI
-
------
-
-## 📑 Table of Contents
-
-1. [Executive Summary](#executive-summary)
-2. [Data Pipeline (High Level)](#data-pipeline-high-level)
-3. [Datasets Integrated](#datasets-integrated)
-4. [Data Staging (Excel)](#data-staging-excel)
-5. [Warehouse Architecture (SQL Server)](#warehouse-architecture-sql-server)
-   - [ETL & Validation Workflow](#etl-and-validation-workflow)
-   - [Core SQL Modeling Patterns](#core-sql-modeling-patterns)
-   - [Fact Tables Explained](#fact-tables-explained)
-   - [Example Policy-Grade Indicator](#example-policy-grade-indicator)
-6. [SPSS Diagnostics](#spss-diagnostics)
-7. [Python (Colab) Panel Modeling & ML](#python-colab-panel-modeling-and-ml)
-8. [Key Findings (2015–2024)](#key-findings-2015-2024)
-9. [Forecast Outlook (2025–2029)](#forecast-outlook-2025-2029)
-10. [Power BI Dashboard Insights](#power-bi-dashboard-insights)
-11. [Production Trends — Geographic View](#production-trends-geographic-view)
-12. [Production and Balance Trends](#production-and-balance-trends)
-13. [Production & Balance Forecast (2025–2029)](#production-and-balance-forecast-2025-2029)
-14. [Summary of Key Findings Across Visualizations](#summary-of-key-findings-across-visualizations)
-15. [Critical Concerns](#critical-concerns)
-16. [Summary of Key Findings from Quadratic AI](#summary-of-key-findings-from-quadratic-ai)
-17. [Prioritized Recommendations](#prioritized-recommendations)
-18. [Conclusion](#conclusion)
-
-
+# Global Agricultural Food Systems Analysis (2015 - 2029)
+## A Data-Driven Case Study on Yield Inequality, Food Security & Systemic Risk
 
 ---
 
-## Executive summary 
-This project converts FAO long‑format tables into canonical fact tables and a single `Full_dataset` master view. That view is the system of record for:
-- food‑security monitoring,
-- productivity and efficiency analysis,
-- trade dependency and risk assessment,
-- loss & waste diagnostics,
-- policy and investment planning.
+## The Problem
 
-Analytical truth is governed in SQL Server; SPSS, Python and Power BI consume SQL outputs for diagnostics, forecasting and visualization. Quadratic AI is used for exploratory AI‑assisted analytics and scenario experiments, always validated against SQL outputs.
+Global food systems are under increasing pressure from a combination of **unequal productivity, post-harvest inefficiencies, and concentrated trade dependencies**.
 
----
+This project analyzes FAO (FAOSTAT) agricultural data across six countries and four core commodities to answer a central question:
 
-## Data pipeline (high level)
-FAO Database  
-↓ Excel: initial extraction, reconciliation, cleaning (Staging) 
-↓ CSV export  
-↓ SQL Server (SSMS): warehouse construction & QA  
-↓ SPSS: statistical diagnostics
-↓ Python (Google Colab): predictive & prescriptive modeling  
-↓ Power BI: visualization & dashboards  
-↓ Quadratic AI: exploratory AI‑assisted analytics
+> **Is global food insecurity primarily a production problem, or a systems efficiency problem?**
 
-Notes
-- Excel is for early inspection and small, documented fixes only. SQL Server stores canonical datasets and enforces reproducible transforms.
+### Key Answer:
+The evidence shows that food insecurity is driven less by total production capacity and more by:
+- Structural yield inequality (up to 10× between countries)
+- Post-harvest losses
+- Concentrated global trade flows
+- Declining per-capita food availability
 
 ---
 
-## Datasets integrated
-| Dataset | What it measures |
-|---|---|
-| production | Crop & livestock output, yield, harvested area |
-| production_indices | Gross & per‑capita production indices (GPI, PCPI) |
-| value_agriculture | Economic value of production (constant USD) |
-| food_balance | Food supply, calories, protein, fat, losses |
-| SUA | Trade flows, stocks, population |
+## The Situation 
 
-These cover production, economics, nutrition and trade and are merged into the master analytical model.
+Despite global increases in agricultural output, food insecurity persists due to inefficiencies in how food is:
 
----
+- Produced
+- Stored
+- Distributed
+- Traded
 
-## Data Staging (Excel)
+This study focuses on a comparative system analysis of:
 
-Excel was used as the initial **staging layer** for FAO data ingestion. Raw FAO extracts were standardized, validated, and structured into tabular form before being exported as CSV files and loaded into SQL Server for transformation into analytical fact tables.
+### Countries
+USA, India, Brazil, France, Nigeria, Australia  
 
+### Commodities
+Rice, Maize, Wheat, Milk  
 
-🔗 **[Production spreadsheet](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20production%20data.xlsx)**
-
----
-
-## Warehouse architecture (SQL Server)
-
-Raw FAO tables (long format) → summary fact tables → `Full_dataset` master view.
-
-🔗 **[Fact SQL](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Production%20FAO%20script.sql)**
-
-🔗 **[Master SQL](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.sql)**
-
-Raw tables:
-- production, production_indices, value_agriculture, food_balance, SUA
-
-Fact tables (T‑SQL):
-- production_summary  
-- production_index_summary  
-- value_agriculture_summary  
-- food_balance_summary  
-- supply_utilization_summary
-
-Master view:
-- `Full_dataset`: harmonized country × commodity × year rows with numeric analytical fields (production, yields, indices, value, nutrition, trade, losses, stocks, population).
+### Timeframe
+2015–2024 (historical analysis)  
+2025–2029 (forecast simulation)
 
 ---
 
-**ETL & validation workflow**
-1. Extract: FAOSTAT API or file downloads.  
-2. Inspect / quick fixes: Excel — log every manual change.  
-3. Export canonical CSVs to `/data/raw/` and `/data/clean/`.  
-4. Load: BULK INSERT / SSIS into SQL Server staging.  
-5. Transform: pivot Elements → columns, build fact tables with T‑SQL.  
-6. Validate: row counts, null rates, totals vs FAO aggregates, per‑capita checks.  
-7. Expose: materialized/indexed tables and views for BI/ML.
+## The Approach
 
-Best practices
-- Keep raw exports immutable.  
-- Use FAOSTAT numeric codes for joins.  
-- Version control T‑SQL and notebooks.  
-- Maintain a changelog for any Excel/manual fixes.
+A full data engineering and analytics pipeline was built to ensure reproducibility and policy-grade reliability:
+
+**FAO → Excel → SQL Server → SPSS → Python → Power BI**
+
+### System Design Philosophy
+- SQL Server acts as the **single source of analytical truth**
+- SPSS provides **statistical validation**
+- Python enables **predictive modelling**
+- Power BI enables **decision-layer visualization**
 
 ---
 
-**Core SQL modeling patterns**
-Pivot FAO element rows into analytic columns (example):
+## Data Engineering Pipeline
+
+FAO (FAOSTAT)  
+↓  
+Excel (Data Staging & QA)  
+↓  
+SQL Server (Warehouse Construction)  
+↓  
+SPSS (Statistical Diagnostics)  
+↓  
+Python (Panel Regression + ML Forecasting)  
+↓  
+Power BI (Business Intelligence Layer)
+
+---
+
+## Analytical Model
+The raw FAO long-format dataset was transformed into a structured analytical model using SQL pivoting logic:
 
 ```sql
 SELECT
@@ -144,246 +91,181 @@ FROM raw_fao_table
 GROUP BY Area, Item, Year;
 ```
 
-Safe ratios:
 
-```sql
-(Losses / NULLIF(Production, 0)) * 100 AS Loss_Rate_Percent
-```
+🔗 **[Fact SQL](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Production%20FAO%20script.sql)**
 
-Practical notes:
-- Normalize currency to constant USD before aggregations.  
-- Standardize units: tonnes, kg/ha, kcal/person/day.  
-- Include automated ETL QA queries (row counts, min/max, null rates).
+🔗 **[Master SQL](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.sql)**
 
----
 
-**What each fact table captures**
-- production_summary: Production, Yield, Area_Harvested, Yield_Carcass  
-- production_index_summary: Gross Production Index (GPI), Per Capita Production Index (PCPI)  
-- value_agriculture_summary: Gross Production Value (constant USD)  
-- food_balance_summary: Food_Quantity, kcal/protein/fat per capita, Losses, Imports/Exports  
-- supply_utilization_summary: Imports, Exports, Stock_Variation, Population
-
-These feed `Full_dataset` for modelling and dashboards.
+----
+## Derived KPI
+Food Loss Rate = Losses / Production  
 
 ---
 
-**Example policy‑grade indicator**
-Food Loss Rate (%) = (Losses / Production) × 100
+## Key Insights
 
-SQL example:
+### 6.1 Structural Inequality in Productivity
+- USA exhibits ~10× higher yield than Nigeria  
+- Agricultural output is strongly land- and efficiency-dependent  
 
-```sql
-SELECT
-  ps.Area, ps.Item, ps.Year,
-  ps.Production,
-  fb.Losses,
-  CASE WHEN ps.Production > 0 THEN (fb.Losses / ps.Production) * 100 ELSE NULL END AS Loss_Rate_pct
-FROM production_summary ps
-JOIN food_balance_summary fb
-  ON ps.Area = fb.Area AND ps.Item = fb.Item AND ps.Year = fb.Year;
-```
+### 6.2 Systemic Losses
+- Post-harvest losses significantly reduce effective food supply  
+- In some regions, losses outweigh production gains  
 
-Use this to prioritize storage/cold‑chain investments where loss rates are highest.
+### 6.3 Trade Concentration Risk
+- A small number of countries dominate global exports  
+- This creates systemic vulnerability in global supply chains  
+
+### 6.4 Declining Per-Capita Availability
+- Despite production growth, per-capita availability is declining post-2022  
 
 ---
 
-## SPSS diagnostics 
-Dataset: `Full production data.sav` (240 rows)
+## Statistical Validation (SPSS Layer)
+
+### Descriptive Findings
+- Strong skew in production and loss distributions  
+- Yield distributions remain relatively stable  
+
+### Model Performance
+- R² range: 0.50 – 0.93 across regression models  
+
+### Interpretation
+Production is more strongly driven by structural factors (land, losses) than efficiency gains alone  
 
 🔗 **[Full production data.spv](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20production%20data.spv)** 
 
-Key observations:
-- Production and Losses: strongly right‑skewed.  
-- Area_Harvested: bimodal (smallholder vs commercial).  
-- Yield: relatively stable distribution.
-
-Statistical guidance:
-- Use Spearman correlations where distributions are non‑normal.
-- Key correlations: Production ↔ Area_Harvested (≈ 0.75); Production ↔ Value (≈ 0.86); Production ↔ Losses (scale effect).
-
-Regression highlights:
-- Production model (R² ≈ 0.77): Area_Harvested and Losses are significant; Imports show negative association; Yield not always significant (land dominates).
-- Food Quantity model (R² ≈ 0.50): Production and Losses important; Exports reduce domestic food quantity.
-- Nutrition model (R² ≈ 0.93): kcal per capita driven by protein and fat availability.
 
 ---
 
-## Python (Colab) panel modeling & ML
-Panel: countries = USA, Brazil, France, India, Nigeria, Australia; commodities = Rice, Maize, Wheat, Milk; years = 2015–2024; balanced panel ≈ 200 obs.
+## Predictive Modelling (Python Layer)
+
+A balanced panel dataset (~200 observations) was used for machine learning forecasting.
+
+### Model: Random Forest Regression
+
+### Performance
+- R² ≈ 0.99 (upper bound; indicates strong signal but potential overfitting risk)  
+- MAE ≈ 1.7M tonnes  
+
+### Key Predictors
+- Area harvested  
+- Production value  
+- Losses  
+- Country effects  
+- Commodity type  
+
+### Insight
+Production systems are highly predictable from structural variables, reinforcing the dominance of land and efficiency constraints.
+
 
 🔗 **[Python Script and Output](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Global_Agricultural_Food_Systems_Analysis_Production,_Security_&_Strategic_Outlook_(2015_2029).ipynb)**
 
-Diagnostic correlations:
-- Area harvested: 0.84  
-- Production value: 0.86  
-- Food quantity: 0.80  
-- Losses: 0.69
 
-Random Forest forecasting (example):
-- R² ≈ 0.99 (test)  
-- MAE ≈ 1.7M tonnes
-
-Feature importance (typical):
-1. Area_Harvested  
-2. Gross Production Value  
-3. Losses  
-4. Country (India)  
-5. Commodity (Rice)
-
-Implication: production is highly predictable from land, value and loss signals — useful for scenario analysis and policy simulation.
 
 ---
 
-**Key findings (2015–2024)**
-- System is largely land‑driven: area explains much of production variance.  
-- Yield gaps are large: USA ≈ 20,000 kg/ha vs Nigeria ≈ 2,000 kg/ha (≈10×).  
-- Per‑capita production is declining in 2022–2024 — population growth outpaces production.  
-- Trade concentration: USA dominates exports; Nigeria relies heavily on imports.  
-- Losses: Nigeria exhibits Loss Rate 200–400% in some years — losses (including imported food) may exceed domestic production (critical red flag).  
-- Reducing post‑harvest losses is often a faster, cheaper way to boost effective food supply than expanding farmland.
+## Forecasting Results (2025–2029)
+
+### Key Trends Identified
+- USA remains global productivity leader  
+- India remains dominant in land availability  
+- Nigeria remains structurally import-dependent  
+- Australia faces climate-driven production decline  
+- Global per-capita availability continues to weaken  
 
 ---
 
-**Forecast outlook (2025–2029)**
-(From validated Python/SPSS models)
-- USA remains productivity leader; India remains scale leader.  
-- Nigeria remains import‑dependent unless loss & yield interventions occur.  
-- Australia shows acute climate/drought risk (GPI decline).  
-- Global per‑capita availability will weaken if current trends continue.
+## Business Intelligence Layer (Power BI)
 
----
+The Power BI dashboard provides multi-layer visibility into:
+- Production efficiency  
+- Yield disparities  
+- Trade flows  
+- Food balance dynamics  
+- Forecast trajectories  
 
-## Power BI Dashboard insights (Key Visualizations & Findings)
-
-The dashboard includes several core visualization groups that drive the analytical conclusions and policy recommendations below.
 
 🔗 **[Power BI Desktop Report](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.pbix)**
 
 🔗 **[View Report in Power BI Service](https://app.powerbi.com/groups/470c1a60-a135-4efe-b1aa-de52313d367d/reports/b4ad2fc8-91a7-4299-8aa7-8c8323431f66?ctid=86f8f77a-ed2c-4743-a3cf-3aa43c451ea4&pbi_source=linkShare&bookmarkGuid=bd9dc075-6239-4e6b-b06f-abb2e4d9e21a)**
 
----
-## Production Trends — Geographic View
-
-| Chart / Metric | Finding | Insight |
-|---|---|---|
-| **Map** | 6 countries across 4 continents | USA, Brazil, France, Nigeria, India, Australia |
-| **Yield by Year & Country** | USA ≈ 20,000 kg/ha; Nigeria ≈ 2,000 kg/ha | **10× yield gap** between best and worst |
-| **Yield Carcass** | USA ≈ 10,000; Nigeria near 0 | Livestock productivity mirrors crop gap |
-| **Area Harvested** | India > 100M hectares | India has the largest agricultural land base |
-| **Production Quantity** | USA > 0.5B tonnes | USA leads despite smaller land area (high efficiency) |
-
-**Critical signal**
-
-- India has the **most farmland**, but the **USA produces more**, highlighting a massive **yield efficiency gap**.  
-  If India matched U.S. yields, global production could **nearly double**.
-
-----
-
-
-## Production and Balance Trends
-
-| Chart | Finding | Insight |
-|---|---|---|
-| **Gross Production Index** | Declining after 2022 for most countries | ⚠️ Australia shows a sharp decline; India remains relatively stable |
-| **Gross Production Value (USD)** | India dominates at ≈ $0.15B | India has the highest agricultural economic output |
-| **Per Capita Production Index** | Sharp decline (2022–2024) | 🚨 Population growth is outpacing production |
-| **Food Quantity** | USA leads at ≈ 0.4M; others below 0.2M | Unequal food distribution capacity |
-| **Loss Rate (%)** | 🚨 Nigeria at 200–400% | Nigeria loses more food than it produces (net importer) |
-| **Export Quantity** | USA dominates at 50–100M tonnes | USA is the global food exporter |
-| **Net Food** | USA and India dominate | Global food availability is concentrated |
-| **Import Quantity** | Nigeria highest (~10M tonnes) | Heavy structural import dependency |
-
-**Critical signal**
-
-- Nigeria’s **loss rate of 200–400%** means it is losing not only domestic production but also imported food, a severe **food-security crisis**.
 
 ---
 
-## Production & Balance Forecast (2025–2029)
+## What It All Means
 
-| Chart / Metric | Finding | Insight |
-|---|---|---|
-| **Yield Forecast** | USA remains highest; slight decline | Yield growth is slowing globally |
-| **Area Harvested Forecast** | India ≈ 100M ha; USA ≈ 50M ha | No major land expansion expected |
-| **Production Forecast** | USA remains > 0.5B tonnes | Continued but uneven growth |
-| **Export Quantity** | USA dominates at ~50M tonnes | Trade remains highly concentrated |
-| **Import Quantity** | Nigeria remains highest | Import dependency continues |
-| **GPV Forecast** | USA & Brazil lead | Agricultural wealth concentrated |
-| **PCPI** | Declining across all countries | ⚠️ Per-capita food availability falling |
-| **GPI Forecast** | Australia falls to ~200 | 🚨 Production stress |
-| **Net Food** | USA & India dominate | Food security concentrated |
-| **Kcal per Capita** | India leads | Nutrition uneven |
-| **Losses** | USA ≈ 10M tonnes | High producers also lose the most |
+Across all analytical layers, a consistent structure emerges:
 
-**Critical warnings**
-
-- Australia’s **GPI collapse** signals serious climate/drought risk  
-- **Per-capita production declining everywhere**  
-- **Nigeria remains import-dependent through 2029**
+### Global Food System Structure
+- Land-driven → production depends heavily on acreage  
+- Inefficient → significant post-harvest losses  
+- Unequal → extreme yield disparity across countries  
+- Concentrated → export power held by few economies  
 
 ---
 
-## Summary of Key Findings Across Visualizations
+## Risk Analysis 
 
-**Global Leaders**
+| Risk | Location | Severity |
+|------|----------|----------|
+| Post-harvest inefficiency | Nigeria | Critical |
+| Import dependency | Nigeria | Critical |
+| Yield stagnation | Global | High |
+| Climate stress | Australia | High |
 
-| Metric | Leader | Value |
-|---|---:|---:|
-| Production | USA | 0.5B+ tonnes |
-| Area Harvested | India | 100M+ hectares |
-| Yield | USA | 20–40K kg/ha |
-| Exports | USA | 50–100M tonnes |
-| GPV | India / USA | $0.1–0.15B |
-
----
-
-## Critical Concerns
-- Crisis: Loss Rate 200–400% — Nigeria (critical)  
-- Import dependence: Nigeria (high)  
-- Declining GPI: Australia (high risk)  
-- Lowest yields: Nigeria (critical)  
-- Per‑capita decline: all countries (warning)
-
-USA and India are anchors of global food stability.
-
-
-## Summary of Key Findings From Quadratic AI
-
-🔗 **[Quadratic Production Analysis](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Quadratic%20Production%20Analysis.xlsx)**
- 
-| Metric | Leader | Value |
-|---|---:|---:| 
-| Production | USA | 0.5B+ tonnes | 
-| Area Harvested | India | 100M+ hectares | 
-| Yield | USA | 20–40K kg/ha |
-| Exports | USA | 50–100M tonnes | 
-| GPV | India / USA | $0.1–0.15B | 
-
-### Critical Concerns 
-| Issue | Country | Severity | 
-|---|---|---| 
-| Loss Rate 200–400% | Nigeria | 🔴 Critical | 
-| Import Dependency | Nigeria | 🔴 Critical | 
-| Declining GPI | Australia | 🔴 Critical | 
-| Lowest Yields | Nigeria | 🔴 Critical | 
-| Per Capita Decline | All Countries | 🟠 Warning | 
-
-**Positive Trends** 
-- Overall production growing across most countries
-- USA maintaining export leadership
-- India’s large agricultural base provides stability
-  
-
-**Prioritized recommendations**
-1. Urgent (Nigeria): invest in cold‑chain, storage, logistics; prioritize loss reduction over land expansion.  
-2. Australia: scale drought‑resilient varieties and water infrastructure.  
-3. Global: prioritize closing yield gaps (extension, inputs, tech) and cutting post‑harvest losses for highest leverage.  
-4. Trade resilience: diversify exporters, strengthen regional trade and buffer stocks.
+### Interpretation
+These risks directly translate into food insecurity exposure, supply instability, and climate vulnerability.
 
 ---
 
+## 13. Limitations 
 
-**The global food system in this sample is land‑driven, loss‑heavy and geographically concentrated. Reducing post‑harvest losses and closing yield gaps offer the fastest, highest‑return routes to improved food security. This project provides a data‑engineered, statistically validated, AI‑ready framework to test these policy levers and produce policy‑grade evidence.**
+- Limited scope: 6 countries, 4 commodities (not fully global)  
+- Potential overfitting in ML model (R² ≈ 0.99)  
+- Possible inconsistencies in FAO unit standardization  
+- Loss rate metric sensitive to denominator structure  
+- Forecast assumes structural continuity (no major shocks)  
 
 ---
+
+## Impact 
+
+### Analytical Impact
+- Built a reproducible FAO data warehouse architecture  
+- Integrated SQL, statistical, and ML pipelines into one system  
+- Created reusable framework for agricultural analytics  
+
+### Policy Impact
+- Identified yield gaps (up to 10×) as the most important constraint  
+- Quantified post-harvest loss as a major inefficiency driver  
+- Highlighted structural import dependency risks  
+
+### Strategic Impact
+- Enables early-warning food security monitoring  
+- Supports investment targeting in agriculture systems  
+- Provides scenario planning capability for policy design  
+
+---
+
+## Conclusion
+
+This project demonstrates that global food insecurity is not primarily a production constraint problem.
+
+Instead, it is structurally driven by:
+
+- Yield inequality  
+- Post-harvest losses  
+- Trade concentration  
+
+### Final Insight:
+Improving global food security requires optimizing systems, not just increasing production.
+
+Addressing these structural inefficiencies provides the highest-leverage pathway to building resilient global food systems.
+
+
+
+
+
+
