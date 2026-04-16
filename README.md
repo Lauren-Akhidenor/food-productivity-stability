@@ -1,5 +1,4 @@
-# Global Agricultural Food Systems Analysis (2015 - 2029)
-## A Data-Driven Case Study on Yield Inequality, Food Security & Systemic Risk
+# The Food System Inequality Engine: Global Agricultural Productivity & Risk (2015–2029)
 
 ---
 
