@@ -208,4 +208,6 @@ food-productivity-stability
 
 ---
 
-**Tools:** SQL Server · SPSS · Python (Pandas, Scikit-learn) · Power BI · FAOSTAT
+## 👤 Author
+
+*Lauren Akhidenor*
