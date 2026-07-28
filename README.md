@@ -1,79 +1,61 @@
-# The Food System Inequality Engine: Global Agricultural Productivity & Risk (2015–2029)
+# Feeding the Future: A Predictive Analytics Framework for Global Agricultural Productivity, Risk & Food Security (2015–2029)
 
 ---
 
-## The Problem
+## Project Overview
 
-Global food systems are under increasing pressure from a combination of **unequal productivity, post-harvest inefficiencies, and concentrated trade dependencies**.
+Global food insecurity is often viewed as a challenge of producing enough food. However, increasing agricultural output does not always translate into improved food availability, accessibility, or resilience.
 
-This project analyzes FAO (FAOSTAT) agricultural data across six countries and four core commodities to answer a central question:
+This project explores whether food insecurity is mainly a production challenge or whether deeper structural issues within global food systems contribute to vulnerability.
 
-> **Is global food insecurity primarily a production problem, or a systems efficiency problem?**
+The analysis investigates:
 
-### Key Answer:
-The evidence shows that food insecurity is driven less by total production capacity and more by:
-- Structural yield inequality (up to 10× between countries)
-- Post-harvest losses
-- Concentrated global trade flows
-- Declining per-capita food availability
+- Agricultural productivity inequalities
+- Post-harvest food losses
+- Trade dependency and supply chain risks
+- Changes in food availability per person
 
----
+Using FAOSTAT agricultural data, this project analyses six countries and four major commodities to understand where food systems experience the greatest risks and inefficiencies.
 
-## The Situation 
+## Key Question
 
-Despite global increases in agricultural output, food insecurity persists due to inefficiencies in how food is:
-
-- Produced
-- Stored
-- Distributed
-- Traded
-
-This study focuses on a comparative system analysis of:
-
-### Countries
-USA, India, Brazil, France, Nigeria, Australia  
-
-### Commodities
-Rice, Maize, Wheat, Milk  
-
-### Timeframe
-2015–2024 (historical analysis)  
-2025–2029 (forecast simulation)
+> Is global food insecurity driven by insufficient production, or by inefficiencies in how food is produced, protected, and distributed?
 
 ---
 
-## The Approach
+## Scope
 
-A full data engineering and analytics pipeline was built to ensure reproducibility and policy-grade reliability:
+**Countries**
 
-**FAO → Excel → SQL Server → SPSS → Python → Power BI**
+| Country | Why it's included |
+|---|---|
+| 🇺🇸 USA | High-productivity benchmark |
+| 🇮🇳 India | Large-scale producer |
+| 🇧🇷 Brazil | Major exporter |
+| 🇫🇷 France | High-efficiency system |
+| 🇳🇬 Nigeria | Food security vulnerability case |
+| 🇦🇺 Australia | Climate & production risk case |
 
-### System Design Philosophy
-- SQL Server acts as the **single source of analytical truth**
-- SPSS provides **statistical validation**
-- Python enables **predictive modelling**
-- Power BI enables **decision-layer visualization**
+**Commodities:** Rice · Maize · Wheat · Milk
 
----
-
-## Data Engineering Pipeline
-
-FAO (FAOSTAT)  
-↓  
-Excel (Data Staging & QA)  
-↓  
-SQL Server (Warehouse Construction)  
-↓  
-SPSS (Statistical Diagnostics)  
-↓  
-Python (Panel Regression + ML Forecasting)  
-↓  
-Power BI (Business Intelligence Layer)
+**Timeframe:** Historical analysis (2015–2024) → Forecast scenario (2025–2029)
 
 ---
 
-## Analytical Model
-The raw FAO long-format dataset was transformed into a structured analytical model using SQL pivoting logic:
+## The Pipeline
+
+```
+FAOSTAT → Excel → SQL Server → SPSS → Python → Power BI
+```
+
+| Stage | Tool | Purpose |
+|---|---|---|
+| Data engineering | SQL Server, Excel | Clean and structure raw FAO data |
+| Statistical validation | SPSS | Test relationships and distributions |
+| Predictive modelling | Python (Pandas, Scikit-learn) | Forecast production trends |
+| Visualisation | Power BI | Bring it all together in an interactive dashboard |
+
+The raw FAO dataset (long-format) was pivoted into an analysis-ready structure in SQL:
 
 ```sql
 SELECT
@@ -90,181 +72,140 @@ FROM raw_fao_table
 GROUP BY Area, Item, Year;
 ```
 
+🔗 [Fact SQL](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Production%20FAO%20script.sql) · [Master SQL](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.sql)
 
-🔗 **[Fact SQL](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Production%20FAO%20script.sql)**
-
-🔗 **[Master SQL](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.sql)**
-
-
-----
-## Derived KPI
-Food Loss Rate = Losses / Production  
+**Key metric:**
+```
+Food Loss Rate = Losses ÷ Production
+```
 
 ---
 
-## Key Insights
+## What the Data Shows
 
-### 6.1 Structural Inequality in Productivity
-- USA exhibits ~10× higher yield than Nigeria  
-- Agricultural output is strongly land- and efficiency-dependent  
+**Productivity is wildly unequal**
+The USA's yields run roughly **10× higher** than Nigeria's — a gap driven by land access, infrastructure, and efficiency, not effort.
 
-### 6.2 Systemic Losses
-- Post-harvest losses significantly reduce effective food supply  
-- In some regions, losses outweigh production gains  
+**Post-harvest losses quietly erase gains**
+In several regions, losses cancel out production growth almost entirely. Growing more food doesn't help if it never reaches anyone.
 
-### 6.3 Trade Concentration Risk
-- A small number of countries dominate global exports  
-- This creates systemic vulnerability in global supply chains  
+**Trade is concentrated and fragile**
+A small handful of countries account for most global exports, leaving the wider system exposed to shocks in just a few places.
 
-### 6.4 Declining Per-Capita Availability
-- Despite production growth, per-capita availability is declining post-2022  
+**Per-capita availability is slipping**
+Despite rising total production, food available per person has been declining since 2022.
 
 ---
 
-## Statistical Validation (SPSS Layer)
+## Statistical Validation (SPSS)
 
-### Descriptive Findings
-- Strong skew in production and loss distributions  
-- Yield distributions remain relatively stable  
+- Production and loss distributions are strongly skewed; yield is comparatively stable
+- Regression models achieved **R² between 0.50–0.93**
+- Production is explained more by structural factors (land, losses) than by efficiency gains alone
 
-### Model Performance
-- R² range: 0.50 – 0.93 across regression models  
-
-### Interpretation
-Production is more strongly driven by structural factors (land, losses) than efficiency gains alone  
-
-🔗 **[Full production data.spv](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20production%20data.spv)** 
-
+🔗 [Full SPSS Output](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20production%20data.spv)
 
 ---
 
-## Predictive Modelling (Python Layer)
+## Predictive Modelling (Python)
 
-A balanced panel dataset (~200 observations) was used for machine learning forecasting.
+A **Random Forest Regression** model was trained on a balanced panel of ~200 observations.
 
-### Model: Random Forest Regression
+| Metric | Result |
+|---|---|
+| R² | ≈ 0.99 (strong signal, some overfitting risk) |
+| MAE | ≈ 1.7M tonnes |
 
-### Performance
-- R² ≈ 0.99 (upper bound; indicates strong signal but potential overfitting risk)  
-- MAE ≈ 1.7M tonnes  
+**Top predictors:** area harvested, production value, losses, country effects, commodity type
 
-### Key Predictors
-- Area harvested  
-- Production value  
-- Losses  
-- Country effects  
-- Commodity type  
+🔗 [Notebook & Output](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Global_Agricultural_Food_Systems_Analysis_Production,_Security_%26_Strategic_Outlook_(2015_2029).ipynb)
 
-### Insight
-Production systems are highly predictable from structural variables, reinforcing the dominance of land and efficiency constraints.
-
-
-🔗 **[Python Script and Output](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Global_Agricultural_Food_Systems_Analysis_Production,_Security_&_Strategic_Outlook_(2015_2029).ipynb)**
-
-
+**Forecast highlights (2025–2029):**
+- USA holds its lead in productivity
+- India stays dominant in sheer land availability
+- Nigeria remains structurally import-dependent
+- Australia faces continued climate-driven production risk
+- Global per-capita availability keeps weakening
 
 ---
 
-## Forecasting Results (2025–2029)
+## Dashboard (Power BI)
 
-### Key Trends Identified
-- USA remains global productivity leader  
-- India remains dominant in land availability  
-- Nigeria remains structurally import-dependent  
-- Australia faces climate-driven production decline  
-- Global per-capita availability continues to weaken  
+An interactive dashboard ties everything together: production efficiency, yield gaps, trade flows, food balances, and forecast trajectories.
+
+🔗 [Power BI File (.pbix)](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.pbix) · [View Report Online](https://app.powerbi.com/groups/470c1a60-a135-4efe-b1aa-de52313d367d/reports/b4ad2fc8-91a7-4299-8aa7-8c8323431f66?ctid=86f8f77a-ed2c-4743-a3cf-3aa43c451ea4&pbi_source=linkShare&bookmarkGuid=bd9dc075-6239-4e6b-b06f-abb2e4d9e21a)
 
 ---
 
-## Business Intelligence Layer (Power BI)
+## Risk Snapshot
 
-The Power BI dashboard provides multi-layer visibility into:
-- Production efficiency  
-- Yield disparities  
-- Trade flows  
-- Food balance dynamics  
-- Forecast trajectories  
-
-
-🔗 **[Power BI Desktop Report](https://github.com/Lauren-Akhidenor/food-productivity-stability/blob/main/Full%20Production%20FAO.pbix)**
-
-🔗 **[View Report in Power BI Service](https://app.powerbi.com/groups/470c1a60-a135-4efe-b1aa-de52313d367d/reports/b4ad2fc8-91a7-4299-8aa7-8c8323431f66?ctid=86f8f77a-ed2c-4743-a3cf-3aa43c451ea4&pbi_source=linkShare&bookmarkGuid=bd9dc075-6239-4e6b-b06f-abb2e4d9e21a)**
-
+| Risk | Where | Severity |
+|---|---|---|
+| Post-harvest inefficiency | Nigeria | 🔴 Critical |
+| Import dependency | Nigeria | 🔴 Critical |
+| Yield stagnation | Global | 🟠 High |
+| Climate stress | Australia | 🟠 High |
 
 ---
 
-## What It All Means
+## The Takeaway
 
-Across all analytical layers, a consistent structure emerges:
+Global food insecurity isn't primarily a production problem. It's a **systems** problem — shaped by:
 
-### Global Food System Structure
-- Land-driven → production depends heavily on acreage  
-- Inefficient → significant post-harvest losses  
-- Unequal → extreme yield disparity across countries  
-- Concentrated → export power held by few economies  
+- Unequal productivity
+- Post-harvest losses
+- Concentrated trade dependency
 
----
-
-## Risk Analysis 
-
-| Risk | Location | Severity |
-|------|----------|----------|
-| Post-harvest inefficiency | Nigeria | Critical |
-| Import dependency | Nigeria | Critical |
-| Yield stagnation | Global | High |
-| Climate stress | Australia | High |
-
-### Interpretation
-These risks directly translate into food insecurity exposure, supply instability, and climate vulnerability.
+**Bottom line:** improving food security means investing in *how the system works*, not just growing more food.
 
 ---
 
-## 13. Limitations 
+## Limitations
 
-- Limited scope: 6 countries, 4 commodities (not fully global)  
-- Potential overfitting in ML model (R² ≈ 0.99)  
-- Possible inconsistencies in FAO unit standardization  
-- Loss rate metric sensitive to denominator structure  
-- Forecast assumes structural continuity (no major shocks)  
-
----
-
-## Impact 
-
-### Analytical Impact
-- Built a reproducible FAO data warehouse architecture  
-- Integrated SQL, statistical, and ML pipelines into one system  
-- Created reusable framework for agricultural analytics  
-
-### Policy Impact
-- Identified yield gaps (up to 10×) as the most important constraint  
-- Quantified post-harvest loss as a major inefficiency driver  
-- Highlighted structural import dependency risks  
-
-### Strategic Impact
-- Enables early-warning food security monitoring  
-- Supports investment targeting in agriculture systems  
-- Provides scenario planning capability for policy design  
+- Covers 6 countries and 4 commodities — a slice of the global system, not the whole picture
+- The ML model's near-perfect R² (≈0.99) likely reflects some overfitting
+- FAOSTAT reporting standards vary slightly across countries
+- Forecasts assume no major structural shocks (climate, policy, conflict)
 
 ---
 
-## Conclusion
+## Why This Matters
 
-This project demonstrates that global food insecurity is not primarily a production constraint problem.
+- **Analytically:** a reusable, reproducible pipeline (SQL → SPSS → Python → BI) for agricultural data
+- **For policy:** flags yield gaps and post-harvest losses as higher-leverage fixes than raw output growth
+- **Strategically:** a foundation for early-warning monitoring and scenario planning in food security
 
-Instead, it is structurally driven by:
+---
 
-- Yield inequality  
-- Post-harvest losses  
-- Trade concentration  
+## Repository Structure
 
-### Final Insight:
-Improving global food security requires optimizing systems, not just increasing production.
+```
+food-productivity-stability
+│
+├── README.md
+│
+├── Data
+│   └── FAOSTAT_agriculture_dataset.xlsx
+│
+├── SQL
+│   ├── Fact_SQL.sql
+│   └── Master_SQL.sql
+│
+├── Python
+│   └── Global_Food_System_Analysis.ipynb
+│
+├── SPSS
+│   └── Statistical_Validation.spv
+│
+├── Dashboard
+│   └── PowerBI_Food_System_Report.pbix
+│
+├── Results
+│   └── Model_Output.xlsx
+│
+└── requirements.txt
+```
 
-Addressing these structural inefficiencies provides the highest-leverage pathway to building resilient global food systems.
+---
 
-
-
-
-
-
+**Tools:** SQL Server · SPSS · Python (Pandas, Scikit-learn) · Power BI · FAOSTAT
