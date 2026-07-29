@@ -208,6 +208,6 @@ food-productivity-stability
 
 ---
 
-## 👤 Author
+## Author
 
 *Lauren Akhidenor*
